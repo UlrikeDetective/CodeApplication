@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Diary</title>
+    <link rel="stylesheet" href="/styles/main.css"> <!-- Corrected path -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Pacifico&family=Cutive+Mono&display=swap" rel="stylesheet">
+   
+   <script>
+        // Function to handle checkbox changes
+        function handleCheckboxChange(event) {
+    const checkbox = event.target;
+    const textareaId = checkbox.id + '-info'; 
+    const textarea = document.getElementById(textareaId);
+
+    if (checkbox.checked) {
+        textarea.style.display = "block"; 
+    } else {
+        textarea.style.display = "none"; 
+        textarea.value = ""; 
+    }
+}
+    
+        // Initialize textareas visibility based on checkbox state (in case the page is reloaded with some checkboxes checked)
+        window.onload = function() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach((checkbox) => {
+                const infoId = checkbox.id + '-info';
+                const infoField = document.getElementById(infoId);
+                if (checkbox.checked) {
+                    infoField.style.display = "block";
+                } else {
+                    infoField.style.display = "none";
+                }
+            });
+        };
+    
+        // Function to get the current location
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            document.getElementById('latitude').value = position.coords.latitude;
+            document.getElementById('longitude').value = position.coords.longitude;
+            document.getElementById('location-date-time').value = new Date().toLocaleString();
+        }
+
+    </script>
+</head>
+<body>
+    <div>
+        <h1>Daily Diary </h1>
+        <h3>Tell me about your day.</h3>
+    </div>  
+        <form id="daily-diary-form" action="/submit" method="POST" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Location Section -->
+            <section class="bg-location"><br>
+                <h2>Location</h2><br>
+                <button type="button" onclick="getCurrentLocation()" class="bg-blue-500 text-white px-4 py-2 rounded mb-4">
+                    Find My Location
+                </button>
+                
+                    <br><label for="location-date-time" class="block text-sm">Date and Time</label>
+                    <input type="text" id="location-date-time" name="location_date_time">
+
+                    <br><label for="latitude" class="block text-sm">Latitude</label>
+                    <input type="text" id="latitude" name="latitude">
+
+                    <br><label for="longitude" class="block text-sm">Longitude</label>
+                    <input type="text" id="longitude" name="longitude">
+
+                    <br><label for="city" class="block text-sm">City</label>
+                    <input type="text" id="city" name="city">
+
+                    <br><label for="country" class="block text-sm">Country</label>
+                    <input type="text" id="country" name="country">
+                </section>
+                <section class="bg-location">
+                    <h2>More locations?</h2><br>
+                    <br><label class="checkbox-label">
+                        <input type="checkbox" id="additionalCity" name="additionalCity" onchange="handleCheckboxChange(event)">
+                        Something to add?
+                    </label>
+                    <textarea id="additionalCity-info" name="additionalCity_info" placeholder="City..."></textarea>
+                    <br>
+
+                     <textarea id="additionalCountry-info" name="additionalCountry_info" placeholder="Country..."></textarea>
+                <br>
+             
+            </section>
+        
+            <!-- Sport Section -->
+            <section class="bg-sport">
+                <h2>Sport</h2>
+
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="yoga" name="yoga" onchange="handleCheckboxChange(event)">
+                            Did you do yoga?
+                        </label>
+                        <textarea id="yoga-info" name="yoga_info" placeholder="Tell me more..."></textarea>
+                        <br>
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="meditation" name="meditation" onchange="handleCheckboxChange(event)">
+                            Did you meditate?
+                        </label>
+                        <textarea id="meditation-info" name="meditation_info" placeholder="Tell me more..."></textarea>
+                    <br>
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="steps" name="steps" onchange="handleCheckboxChange(event)">
+                            How many foodsteps?
+                        </label>
+                        <textarea id="steps-info" name="steps_info" placeholder="Tell me more..."></textarea>
+                        
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="bike" name="bike" onchange="handleCheckboxChange(event)">
+                            Bike ride? - For how long?
+                        </label>
+                        <textarea id="bike-info" name="bike_info" placeholder="Tell me more..."></textarea>
+                        
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="otherSport" name="otherSport" onchange="handleCheckboxChange(event)">
+                            Any other sport?
+                        </label>
+                        <textarea id="otherSport-info" name="otherSport_info" placeholder="Tell me more..."></textarea>
+
+            </section>
+
+            <!-- Food Section -->
+            <section class="bg-food"> <br>
+                <h2>Food</h2>
+
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="fruit" name="fruit" onchange="handleCheckboxChange(event)">
+                            Did you eat fruits?
+                        </label>
+                        <textarea id="fruit-info" name="fruit_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="vegetables" name="vegetables" onchange="handleCheckboxChange(event)">
+                            Did you eat vegetables?
+                        </label>
+                        <textarea id="vegetables-info" name="vegetables_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="water" name="water" onchange="handleCheckboxChange(event)">
+                            What did you drink?
+                        </label>
+                        <textarea id="water-info" name="water_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+            </section>
+         
+            <!-- Programs Section -->
+            <section class="bg-programs"> <br>
+                <h2>Programs</h2>
+
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="r" name="r" onchange="handleCheckboxChange(event)">
+                            Any R today?
+                        </label>
+                        <textarea id="r-info" name="r_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="python" name="python" onchange="handleCheckboxChange(event)">
+                            Any Python?
+                        </label>
+                        <textarea id="python-info" name="python_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="sql" name="sql" onchange="handleCheckboxChange(event)">
+                            Any SQL?
+                        </label>
+                        <textarea id="sql-info" name="sql_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="excel" name="excel" onchange="handleCheckboxChange(event)">
+                            Any Excel?
+                        </label>
+                        <textarea id="excel-info" name="excel_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="adobe" name="adobe" onchange="handleCheckboxChange(event)">
+                            Any Adobe?
+                        </label>
+                        <textarea id="adobe-info" name="adobe_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="website" name="website" onchange="handleCheckboxChange(event)">
+                            Any web development?
+                        </label>
+                        <textarea id="website-info" name="website_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="github" name="github" onchange="handleCheckboxChange(event)">
+                            Any GitHub?
+                        </label>
+                        <textarea id="github-info" name="github_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="kaggle" name="kaggle" onchange="handleCheckboxChange(event)">
+                            Any Kaggle?
+                        </label>
+                        <textarea id="kaggle-info" name="kaggle_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="terminal" name="terminal" onchange="handleCheckboxChange(event)">
+                            Any Terminal work?
+                        </label>
+                        <textarea id="terminal-info" name="terminal_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                        <br><label class="checkbox-label">
+                            <input type="checkbox" id="otherPrograms" name="otherPrograms" onchange="handleCheckboxChange(event)">
+                            Any other programs?
+                        </label>
+                        <textarea id="otherPrograms-info" name="otherPrograms_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                    </section>
+         
+                    <!-- Programs Section Part II -->
+                    <section class="bg-programs"> <br>
+                        <h2>Data Science Victories</h2>
+                        <br><label for="dataScienceProgram">Main Data Science program:</label>
+                        <input type="text" id="dataScienceProgram" name="dataScienceProgram">
+
+                        <br><label for="focus">One thing you focused on:</label>
+                        <input type="text" id="focus" name="focus">
+
+                        <br><label for="focusLevel">Choose the level of focus:</label>
+                        <select id="focusLevel" name="focusLevel">
+                            <option value="Beginner">Beginner</option>
+                            <option value="Beginner/Intermediate">Beginner/Intermediate</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Intermediate/Advanced">Intermediate/Advanced</option>
+                            <option value="Advanced">Advanced</option>
+                            <option value="All level">All level</option>
+                            <option value="None">None</option>
+                        </select>
+
+                        <br><label for="howDidItGo">How did it go?</label>
+                        <select id="howDidItGo" name="howDidItGo">
+                            <option value="0">0 = bad day or no Data Science</option>
+                            <option value="1">1 = awful</option>
+                            <option value="2">2 = maybe another day</option>
+                            <option value="3">3 = still a lot to learn</option>
+                            <option value="4">4 = fine</option>
+                            <option value="5">5 = good</option>
+                            <option value="6">6 = Knowledge is rising</option>
+                            <option value="7">7 = fantastic</option>
+                            <option value="8">8 = good day / holiday - sorry no Data Science</option>
+                        </select>
+            </section>
+
+            <!-- Career Section -->
+            <section class="bg-career"><br>
+                <h2>Career</h2>
+                    <br><label class="checkbox-label">
+                        <input type="checkbox" id="career" name="career" onchange="handleCheckboxChange(event)">
+                        Did you work on your career?
+                    </label>
+                    <textarea id="career-info" name="career_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                    <br><label class="checkbox-label">
+                        <input type="checkbox" id="networking" name="networking" onchange="handleCheckboxChange(event)">
+                        Any networking?
+                    </label>
+                    <textarea id="networking-info" name="networking_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                    <br><label class="checkbox-label">
+                        <input type="checkbox" id="techLearning" name="techLearning" onchange="handleCheckboxChange(event)">
+                        Any tech learning?
+                    </label>
+                    <textarea id="techLearning-info" name="techLearning_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                    <br><label class="checkbox-label">
+                        <input type="checkbox" id="techReading" name="techReading" onchange="handleCheckboxChange(event)">
+                        Any tech reading?
+                    </label>
+                    <textarea id="techReading-info" name="techReading_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                    <br><label class="checkbox-label">
+                        <input type="checkbox" id="techListing" name="tech_listing" onchange="handleCheckboxChange(event)">
+                        Any tech listing?
+                    </label>
+                    <textarea id="techListing-info" name="techListing_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+            </section>
+
+            <!-- Culture Section -->
+            <section class="bg-culture"><br>
+                <h2>Culture</h2>
+
+                    <br><label class="checkbox-label">
+                        <input type="checkbox" id="book" name="book" onchange="handleCheckboxChange(event)">
+                        Did you read a book?
+                    </label>
+                    <textarea id="book-info" name="book_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                    <br><label class="checkbox-label">
+                        <input type="checkbox" id="listening" name="listening" onchange="handleCheckboxChange(event)">
+                        Did you listen to an audiobook or podcast?
+                    </label>
+                    <textarea id="listening-info" name="listening_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+
+                    <br><label class="checkbox-label">
+                        <input type="checkbox" id="otherCulture" name="otherCulture" onchange="handleCheckboxChange(event)">
+                        Any other cultural activities?
+                    </label>
+                    <textarea id="otherCulture-info" name="otherCulture_info" maxlength="255" style="display: none; width: 100%;" placeholder="Tell me more."></textarea>
+            </section>
+
+            <!-- Good Things Section -->
+            <section class="bg-goodthings"><br>
+                <h2>Good things</h2>
+                    <br><label for="firstGoodThing">First good thing today:</label>
+                    <textarea id="firstGoodThing" name="firstGoodThing" style="width: 100%;" placeholder="Tell me more."></textarea>
+
+                    <br><label for="secondGoodThing">Second good thing today:</label>
+                    <textarea id="secondGoodThing" name="secondGoodThing" style="width: 100%;" placeholder="Tell me more."></textarea>
+
+                    <br><label for="thirdGoodThing">Third good thing today:</label>
+                    <textarea id="thirdGoodThing" name="thirdGoodThing" style="width: 100%;" placeholder="Tell me more."></textarea>
+
+                    <br><label for="honoraryMention">Honorary mention today:</label>
+                    <textarea id="honoraryMention" name="honoraryMention" style="width: 100%;" placeholder="Tell me more."></textarea>
+                </section>
+
+                <!-- Diary Section -->
+                <section class="bg-diary"><br>
+                    <h2>Diary</h2>
+                    <br><label for="diary">What happened today?:</label>
+                    <textarea id="diary" name="diary" placeholder="Tell me more."></textarea>
+
+                    <button type="submit">Submit</button>
+            </section>
+
+        </form>
+    </div>
+</body>
+<script>
+    document.getElementById('daily-diary-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+
+        const data = {
+            location: {
+                date_time: formData.get('location_date_time'),
+                latitude: formData.get('latitude'),
+                longitude: formData.get('longitude'),
+                city: formData.get('city'),
+                country: formData.get('country'),
+                additionalCity: formData.get('additionalCity_info'),
+                additionalCountry: formData.get('additionalCountry_info')
+            },
+            sport: {
+                date_time: formData.get('location_date_time'),
+                yoga: formData.get('yoga_info'),
+                meditation: formData.get('meditation_info'),
+                steps: formData.get('steps_info'),
+                bike: formData.get('bike_info'),
+                otherSport: formData.get('otherSport_info')
+            },
+            food: {
+                date_time: formData.get('location_date_time'),
+                fruit: formData.get('fruit_info'),
+                vegetables: formData.get('vegetables_info'),
+                water: formData.get('water_info')
+            },
+            programs: {
+                date_time: formData.get('location_date_time'),
+                r: formData.get('r_info'),
+                python: formData.get('python_info'),
+                sql: formData.get('sql_info'),
+                excel: formData.get('excel_info'),
+                adobe: formData.get('adobe_info'),
+                website: formData.get('website_info'),
+                github: formData.get('github_info'),
+                kaggle: formData.get('kaggle_info'),
+                terminal: formData.get('terminal_info'),
+                otherPrograms: formData.get('otherPrograms_info'),
+                dataScienceProgram: formData.get('dataScienceProgram'),
+                focus: formData.get('focus'),
+                focusLevel: formData.get('focusLevel'),
+                howDidItGo: formData.get('howDidItGo')
+            },
+            career: {
+                date_time: formData.get('location_date_time'),
+                career: formData.get('career_info'),
+                networking: formData.get('networking_info'),
+                techLearning: formData.get('techLearning_info'),
+                techReading: formData.get('techReading_info'),
+                techListing: formData.get('techListing_info')
+            },
+            culture: {
+                date_time: formData.get('location_date_time'),
+                book: formData.get('book_info'),
+                listening: formData.get('listening_info'),
+                otherCulture: formData.get('otherCulture_info')
+            },
+            goodThings: {
+                date_time: formData.get('location_date_time'),
+                firstGoodThing: formData.get('firstGoodThing'),
+                secondGoodThing: formData.get('secondGoodThing'),
+                thirdGoodThing: formData.get('thirdGoodThing'),
+                honoraryMention: formData.get('honoraryMention'),
+                diary: formData.get('diary')
+            }
+        };
+
+        fetch('/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+            redirect: 'follow' // Ensure fetch follows redirects
+        })
+        .then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else if (response.ok) {
+                window.location.href = '/success';
+            } else {
+                return response.text().then(text => { throw new Error(text) });
+            }
+        })
+        .catch(error => {
+            alert('Error: ' + error.message);
+        });
+    });
+</script>
+</html>

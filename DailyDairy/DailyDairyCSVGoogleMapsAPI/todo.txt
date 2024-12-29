@@ -1,0 +1,7 @@
+Instructions:
+
+npm init -y
+npm i ...
+nodemon server.js
+
+Needs Google maps API key
