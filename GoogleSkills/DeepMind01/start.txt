@@ -1,0 +1,13 @@
+Colabs for the course: Build your own small language model.
+
+What did the process of assigning probabilities tell you about the sensitivity of language models to contextual cues such as “Jide is hungry”’ or “Jide is thirsty”?
+
+
+How do you think these differences in probability distributions could impact real-world applications involving language generation? Also reflect about how these probabilities may affect predictions of longer texts instead of single words.
+
+
+Think about the implications of language models in applications that influence communication. How do you think stereotypes or other types of biases in the input data could affect the predictions it makes and what steps could be taken to mitigate potential issues?
+
+Research Skills Focus
+Reflection
+Reflection is a critical research skill that involves the active process of thinking about and analyzing your own research process, decisions, and experiences. It goes beyond simply carrying out the steps of a research project; it involves a deeper engagement with the work, with the goal of gaining insights, improving understanding, and enhancing future research practices. By reflecting on what worked, what didn't, and why, researchers can identify areas for growth, refine their methodologies, and develop a more nuanced and sophisticated approach to inquiry.
